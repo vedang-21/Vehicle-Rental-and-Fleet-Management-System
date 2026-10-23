@@ -3,14 +3,18 @@ import java.util.Scanner;
 
 public class Main {
 
-    // --- Inner Interface ---
+    // ==========================================
+    // 1. INNER INTERFACE
+    // ==========================================
     interface Rentable {
         double calculateRentalCost(int days);
         void markAsRented();
         void markAsReturned();
     }
 
-    // --- Abstract Inner Class ---
+    // ==========================================
+    // 2. ABSTRACT INNER CLASS: Vehicle
+    // ==========================================
     abstract static class Vehicle implements Rentable {
         private int vehicleId;
         private String brand;
@@ -26,58 +30,110 @@ public class Main {
             this.available = true;
         }
 
-        public int getVehicleId() { return vehicleId; }
-        public String getBrand() { return brand; }
-        public String getModel() { return model; }
-        public double getRentalRate() { return rentalRate; }
-        public boolean isAvailable() { return available; }
+        public int getVehicleId() {
+            return vehicleId;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public String getModel() {
+            return model;
+        }
+
+        public double getRentalRate() {
+            return rentalRate;
+        }
+
+        public boolean isAvailable() {
+            return available;
+        }
+
         public abstract String getCategory();
+
         public abstract double calculateRentalCost(int days);
 
         @Override
         public void markAsRented() {
-            if (!available) throw new IllegalStateException("Vehicle is already rented / not available.");
+            if (!available) {
+                throw new IllegalStateException("Vehicle is already rented / not available.");
+            }
             this.available = false;
         }
 
         @Override
         public void markAsReturned() {
-            if (available) throw new IllegalStateException("Vehicle is not currently rented.");
+            if (available) {
+                throw new IllegalStateException("Vehicle is not currently rented.");
+            }
             this.available = true;
         }
 
         public void displayDetails() {
-            System.out.println("ID: " + vehicleId + " | Brand: " + brand + " | Model: " + model
-                    + " | Rate/Day: " + rentalRate + " | Available: " + (available ? "Yes" : "No"));
+            System.out.println("ID: " + vehicleId 
+                    + " | Brand: " + brand 
+                    + " | Model: " + model
+                    + " | Rate/Day: " + rentalRate 
+                    + " | Available: " + (available ? "Yes" : "No"));
         }
     }
 
-    // --- Concrete Inner Classes Extending Vehicle ---
+    // ==========================================
+    // 3. CONCRETE CHILD CLASS: TwoWheeler
+    // ==========================================
     static class TwoWheeler extends Vehicle {
+
         public TwoWheeler(int vehicleId, String brand, String model, double rentalRate) {
             super(vehicleId, brand, model, rentalRate);
         }
-        @Override public String getCategory() { return "Two-Wheeler"; }
-        @Override public double calculateRentalCost(int days) { return getRentalRate() * days; }
-        @Override public void displayDetails() {
+
+        @Override
+        public String getCategory() {
+            return "Two-Wheeler";
+        }
+
+        @Override
+        public double calculateRentalCost(int days) {
+            return getRentalRate() * days;
+        }
+
+        @Override
+        public void displayDetails() {
             super.displayDetails();
             System.out.println("  Category: " + getCategory());
         }
     }
 
+    // ==========================================
+    // 4. CONCRETE CHILD CLASS: FourWheeler
+    // ==========================================
     static class FourWheeler extends Vehicle {
+
         public FourWheeler(int vehicleId, String brand, String model, double rentalRate) {
             super(vehicleId, brand, model, rentalRate);
         }
-        @Override public String getCategory() { return "Four-Wheeler"; }
-        @Override public double calculateRentalCost(int days) { return getRentalRate() * days; }
-        @Override public void displayDetails() {
+
+        @Override
+        public String getCategory() {
+            return "Four-Wheeler";
+        }
+
+        @Override
+        public double calculateRentalCost(int days) {
+            return getRentalRate() * days;
+        }
+
+        @Override
+        public void displayDetails() {
             super.displayDetails();
             System.out.println("  Category: " + getCategory());
         }
     }
 
-    // --- Inner Class: Customer ---
+    // ==========================================
+    // 5. INNER CLASS: Customer
+    // ==========================================
     static class Customer {
         private int customerId;
         private String name;
@@ -88,15 +144,29 @@ public class Main {
             this.name = name;
             this.contactNumber = contactNumber;
         }
-        public int getCustomerId() { return customerId; }
-        public String getName() { return name; }
-        public String getContactNumber() { return contactNumber; }
+
+        public int getCustomerId() {
+            return customerId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getContactNumber() {
+            return contactNumber;
+        }
+
         public void displayDetails() {
-            System.out.println("Customer ID: " + customerId + " | Name: " + name + " | Contact: " + contactNumber);
+            System.out.println("Customer ID: " + customerId 
+                    + " | Name: " + name 
+                    + " | Contact: " + contactNumber);
         }
     }
 
-    // --- Inner Class: Rental ---
+    // ==========================================
+    // 6. INNER CLASS: Rental
+    // ==========================================
     static class Rental {
         private int customerId;
         private Vehicle vehicle;
@@ -111,48 +181,92 @@ public class Main {
             this.totalCost = vehicle.calculateRentalCost(days);
             this.status = "Active";
         }
-        public int getCustomerId() { return customerId; }
-        public Vehicle getVehicle() { return vehicle; }
-        public int getDays() { return days; }
-        public double getTotalCost() { return totalCost; }
-        public String getStatus() { return status; }
-        public void markReturned() { this.status = "Returned"; }
+
+        public int getCustomerId() {
+            return customerId;
+        }
+
+        public Vehicle getVehicle() {
+            return vehicle;
+        }
+
+        public int getDays() {
+            return days;
+        }
+
+        public double getTotalCost() {
+            return totalCost;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void markReturned() {
+            this.status = "Returned";
+        }
+
         public void displayDetails() {
-            System.out.println("Customer ID: " + customerId + " | Vehicle: [" + vehicle.getBrand() + " " + vehicle.getModel()
-                    + " (ID: " + vehicle.getVehicleId() + ", " + vehicle.getCategory() + ")] | Days: " + days
-                    + " | Total Cost: " + totalCost + " | Status: " + status);
+            System.out.println("Customer ID: " + customerId 
+                    + " | Vehicle: [" + vehicle.getBrand() + " " + vehicle.getModel() 
+                    + " (ID: " + vehicle.getVehicleId() + ", " + vehicle.getCategory() + ")]"
+                    + " | Days: " + days 
+                    + " | Total Cost: " + totalCost 
+                    + " | Status: " + status);
         }
     }
 
-    // --- Static Fields ---
+    // ==========================================
+    // STATIC FIELDS
+    // ==========================================
     private static ArrayList<Vehicle> vehicles = new ArrayList<>();
     private static ArrayList<Customer> customers = new ArrayList<>();
     private static ArrayList<Rental> rentals = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
     private static Customer loggedInCustomer = null;
 
-    // --- Helper Method for Input ---
+    // ==========================================
+    // HELPER INPUT METHOD
+    // ==========================================
     public static int readInt(String prompt) {
         System.out.print(prompt);
-        return Integer.parseInt(scanner.nextLine().trim());
+        String input = scanner.nextLine().trim();
+        return Integer.parseInt(input);
     }
 
-    // --- Main Entry Point ---
+    // ==========================================
+    // MAIN ENTRY POINT
+    // ==========================================
     public static void main(String[] args) {
         while (true) {
-            System.out.println("\n=== FLEETEASE RENTAL SYSTEM ===");
-            System.out.println("1. Admin Login\n2. Customer (Login/Register)\n3. Exit");
+            System.out.println("\n=================================");
+            System.out.println("    FLEETEASE RENTAL SYSTEM      ");
+            System.out.println("=================================");
+            System.out.println("1. Admin Login");
+            System.out.println("2. Customer (Login/Register)");
+            System.out.println("3. Exit");
+
             try {
                 int choice = readInt("Enter your choice (1-3): ");
-                if (choice == 1) {
-                    if (adminLogin()) adminMenu();
-                } else if (choice == 2) {
-                    customerMenu();
-                } else if (choice == 3) {
-                    System.out.println("Thank you for using FleetEase. Goodbye!");
-                    return;
-                } else {
-                    System.out.println("Invalid choice. Please select 1-3.");
+
+                switch (choice) {
+                    case 1:
+                        if (adminLogin()) {
+                            adminMenu();
+                        }
+                        break;
+
+                    case 2:
+                        customerMenu();
+                        break;
+
+                    case 3:
+                        System.out.println("Thank you for using FleetEase. Goodbye!");
+                        return;
+
+                    default:
+                        System.out.println("Invalid choice. Please select 1-3.");
+                        break;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Please enter a valid numeric choice.");
@@ -162,34 +276,68 @@ public class Main {
         }
     }
 
-    // --- Admin Operations ---
+    // ==========================================
+    // ADMIN OPERATIONS
+    // ==========================================
     public static boolean adminLogin() {
         System.out.print("Enter Admin Username: ");
         String username = scanner.nextLine().trim();
+
         System.out.print("Enter Admin Password: ");
         String password = scanner.nextLine().trim();
+
         if (username.equals("admin") && password.equals("admin123")) {
             System.out.println("Admin login successful!");
             return true;
         }
+
         System.out.println("Invalid admin credentials.");
         return false;
     }
 
     public static void adminMenu() {
         while (true) {
-            System.out.println("\n=== ADMIN DASHBOARD ===");
-            System.out.println("1. Add Vehicle\n2. View All Vehicles\n3. View Available Vehicles\n4. View All Registered Customers\n5. View All Rental Records\n6. Logout");
+            System.out.println("\n=================================");
+            System.out.println("         ADMIN DASHBOARD         ");
+            System.out.println("=================================");
+            System.out.println("1. Add Vehicle");
+            System.out.println("2. View All Vehicles");
+            System.out.println("3. View Available Vehicles");
+            System.out.println("4. View All Registered Customers");
+            System.out.println("5. View All Rental Records");
+            System.out.println("6. Logout");
+
             try {
                 int choice = readInt("Enter your choice (1-6): ");
+
                 switch (choice) {
-                    case 1: addVehicle(); break;
-                    case 2: displayVehicles(); break;
-                    case 3: viewAvailableVehicles(); break;
-                    case 4: viewCustomers(); break;
-                    case 5: viewRentals(); break;
-                    case 6: System.out.println("Admin logged out."); return;
-                    default: System.out.println("Invalid choice. Please select 1-6.");
+                    case 1:
+                        addVehicle();
+                        break;
+
+                    case 2:
+                        displayVehicles();
+                        break;
+
+                    case 3:
+                        viewAvailableVehicles();
+                        break;
+
+                    case 4:
+                        viewCustomers();
+                        break;
+
+                    case 5:
+                        viewRentals();
+                        break;
+
+                    case 6:
+                        System.out.println("Admin logged out.");
+                        return;
+
+                    default:
+                        System.out.println("Invalid choice. Please select 1-6.");
+                        break;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Non-numeric input provided. Please enter a valid number.");
@@ -201,19 +349,33 @@ public class Main {
 
     public static void addVehicle() {
         int id = readInt("Enter Vehicle ID: ");
-        if (id <= 0) throw new IllegalArgumentException("Vehicle ID must be a positive number.");
-        for (Vehicle v : vehicles) {
-            if (v.getVehicleId() == id) throw new IllegalArgumentException("Vehicle with ID " + id + " already exists.");
+        if (id <= 0) {
+            throw new IllegalArgumentException("Vehicle ID must be a positive number.");
         }
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getVehicleId() == id) {
+                throw new IllegalArgumentException("Vehicle with ID " + id + " already exists.");
+            }
+        }
+
         System.out.print("Enter Brand: ");
         String brand = scanner.nextLine().trim();
-        if (brand.isEmpty()) throw new IllegalArgumentException("Brand cannot be empty.");
+        if (brand.isEmpty()) {
+            throw new IllegalArgumentException("Brand cannot be empty.");
+        }
+
         System.out.print("Enter Model: ");
         String model = scanner.nextLine().trim();
-        if (model.isEmpty()) throw new IllegalArgumentException("Model cannot be empty.");
+        if (model.isEmpty()) {
+            throw new IllegalArgumentException("Model cannot be empty.");
+        }
+
         System.out.print("Enter Rental Rate per Day: ");
         double rate = Double.parseDouble(scanner.nextLine().trim());
-        if (rate <= 0) throw new IllegalArgumentException("Rental rate must be greater than 0.");
+        if (rate <= 0) {
+            throw new IllegalArgumentException("Rental rate must be greater than 0.");
+        }
 
         int type = readInt("Enter Category (1. Two-Wheeler, 2. Four-Wheeler): ");
         if (type == 1) {
@@ -228,68 +390,111 @@ public class Main {
     }
 
     public static void viewCustomers() {
-        if (customers.isEmpty()) { System.out.println("No registered customers found."); return; }
+        if (customers.isEmpty()) {
+            System.out.println("No registered customers found.");
+            return;
+        }
+
         System.out.println("\n--- Registered Customers ---");
-        for (Customer c : customers) c.displayDetails();
+        for (Customer customer : customers) {
+            customer.displayDetails();
+        }
     }
 
     public static void viewRentals() {
-        if (rentals.isEmpty()) { System.out.println("No rental records found."); return; }
+        if (rentals.isEmpty()) {
+            System.out.println("No rental records found.");
+            return;
+        }
+
         System.out.println("\n--- All Rental Records ---");
-        for (Rental r : rentals) r.displayDetails();
+        for (Rental rental : rentals) {
+            rental.displayDetails();
+        }
     }
 
-    // --- Vehicle Query Methods (Overloaded) ---
+    // ==========================================
+    // VEHICLE QUERY METHODS (OVERLOADED)
+    // ==========================================
     public static void displayVehicles() {
-        if (vehicles.isEmpty()) { System.out.println("No vehicles found in the system."); return; }
+        if (vehicles.isEmpty()) {
+            System.out.println("No vehicles found in the system.");
+            return;
+        }
+
         System.out.println("\n--- All Vehicles ---");
-        for (Vehicle v : vehicles) v.displayDetails();
+        for (Vehicle vehicle : vehicles) {
+            vehicle.displayDetails();
+        }
     }
 
     public static void displayVehicles(String category) {
         boolean found = false;
         System.out.println("\n--- Vehicles in Category: " + category + " ---");
-        for (Vehicle v : vehicles) {
-            if (v.getCategory().equalsIgnoreCase(category)) {
-                v.displayDetails();
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getCategory().equalsIgnoreCase(category)) {
+                vehicle.displayDetails();
                 found = true;
             }
         }
-        if (!found) System.out.println("No vehicles found in category: " + category);
+
+        if (!found) {
+            System.out.println("No vehicles found in category: " + category);
+        }
     }
 
     public static void viewAvailableVehicles() {
         boolean found = false;
         System.out.println("\n--- Available Vehicles ---");
-        for (Vehicle v : vehicles) {
-            if (v.isAvailable()) {
-                v.displayDetails();
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.isAvailable()) {
+                vehicle.displayDetails();
                 found = true;
             }
         }
-        if (!found) System.out.println("No available vehicles currently.");
+
+        if (!found) {
+            System.out.println("No available vehicles currently.");
+        }
     }
 
     public static Vehicle findVehicleById(int id) {
-        for (Vehicle v : vehicles) {
-            if (v.getVehicleId() == id) return v;
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getVehicleId() == id) {
+                return vehicle;
+            }
         }
         throw new IllegalArgumentException("Vehicle with ID " + id + " not found.");
     }
 
-    // --- Customer Operations ---
+    // ==========================================
+    // CUSTOMER OPERATIONS
+    // ==========================================
     public static void registerCustomer() {
         int id = readInt("Enter Customer ID: ");
-        if (id <= 0) throw new IllegalArgumentException("Customer ID must be a positive number.");
-        for (Customer c : customers) {
-            if (c.getCustomerId() == id) throw new IllegalArgumentException("Customer ID " + id + " is already registered.");
+        if (id <= 0) {
+            throw new IllegalArgumentException("Customer ID must be a positive number.");
         }
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == id) {
+                throw new IllegalArgumentException("Customer ID " + id + " is already registered.");
+            }
+        }
+
         System.out.print("Enter Name: ");
         String name = scanner.nextLine().trim();
-        if (name.isEmpty()) throw new IllegalArgumentException("Name cannot be empty.");
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty.");
+        }
+
         System.out.print("Enter Contact Number (10 digits): ");
         String contact = scanner.nextLine().trim();
-        if (!contact.matches("\\d{10}")) throw new IllegalArgumentException("Contact number must be exactly 10 digits.");
+        if (!contact.matches("\\d{10}")) {
+            throw new IllegalArgumentException("Contact number must be exactly 10 digits.");
+        }
 
         customers.add(new Customer(id, name, contact));
         System.out.println("Customer registered successfully with ID: " + id);
@@ -297,67 +502,103 @@ public class Main {
 
     public static void loginCustomer() {
         int id = readInt("Enter Customer ID: ");
-        for (Customer c : customers) {
-            if (c.getCustomerId() == id) {
-                loggedInCustomer = c;
-                System.out.println("Login successful. Welcome, " + c.getName() + "!");
+
+        for (Customer customer : customers) {
+            if (customer.getCustomerId() == id) {
+                loggedInCustomer = customer;
+                System.out.println("Login successful. Welcome, " + customer.getName() + "!");
                 return;
             }
         }
+
         throw new IllegalArgumentException("Customer ID " + id + " not found. Please register first.");
     }
 
     public static void searchByCategory() {
         int catChoice = readInt("Select Category (1. Two-Wheeler, 2. Four-Wheeler): ");
-        String category = (catChoice == 1) ? "Two-Wheeler" : (catChoice == 2) ? "Four-Wheeler" : null;
-        if (category == null) throw new IllegalArgumentException("Invalid category choice. Choose 1 or 2.");
+        String category;
+
+        if (catChoice == 1) {
+            category = "Two-Wheeler";
+        } else if (catChoice == 2) {
+            category = "Four-Wheeler";
+        } else {
+            throw new IllegalArgumentException("Invalid category choice. Choose 1 or 2.");
+        }
 
         System.out.println("\n--- Available " + category + "s ---");
         boolean found = false;
-        for (Vehicle v : vehicles) {
-            if (v.isAvailable() && v.getCategory().equalsIgnoreCase(category)) {
-                v.displayDetails();
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.isAvailable() && vehicle.getCategory().equalsIgnoreCase(category)) {
+                vehicle.displayDetails();
                 found = true;
             }
         }
-        if (!found) System.out.println("No available vehicles found in category: " + category);
+
+        if (!found) {
+            System.out.println("No available vehicles found in category: " + category);
+        }
     }
 
     public static void recommendVehicles() {
         System.out.print("Enter maximum daily budget: ");
         double budget = Double.parseDouble(scanner.nextLine().trim());
-        if (budget <= 0) throw new IllegalArgumentException("Budget must be greater than 0.");
+        if (budget <= 0) {
+            throw new IllegalArgumentException("Budget must be greater than 0.");
+        }
+
         int catChoice = readInt("Select Preferred Category (1. Two-Wheeler, 2. Four-Wheeler): ");
-        String category = (catChoice == 1) ? "Two-Wheeler" : (catChoice == 2) ? "Four-Wheeler" : null;
-        if (category == null) throw new IllegalArgumentException("Invalid category choice. Choose 1 or 2.");
+        String category;
+
+        if (catChoice == 1) {
+            category = "Two-Wheeler";
+        } else if (catChoice == 2) {
+            category = "Four-Wheeler";
+        } else {
+            throw new IllegalArgumentException("Invalid category choice. Choose 1 or 2.");
+        }
 
         boolean found = false;
         System.out.println("\n--- Recommended Vehicles ---");
-        for (Vehicle v : vehicles) {
-            if (v.isAvailable() && v.getCategory().equalsIgnoreCase(category) && v.getRentalRate() <= budget) {
-                v.displayDetails();
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.isAvailable() 
+                    && vehicle.getCategory().equalsIgnoreCase(category) 
+                    && vehicle.getRentalRate() <= budget) {
+                vehicle.displayDetails();
                 found = true;
             }
         }
-        if (!found) System.out.println("No vehicles match your budget and category.");
+
+        if (!found) {
+            System.out.println("No vehicles match your budget and category.");
+        }
     }
 
     public static void rentVehicle() {
         int id = readInt("Enter Vehicle ID to Rent: ");
-        Vehicle v = findVehicleById(id);
-        if (!v.isAvailable()) throw new IllegalStateException("Vehicle is already rented / not available.");
-        int days = readInt("Enter Number of Rental Days: ");
-        if (days <= 0) throw new IllegalArgumentException("Rental days must be greater than 0.");
+        Vehicle vehicle = findVehicleById(id);
 
-        double cost = v.calculateRentalCost(days);
-        System.out.println("Vehicle: " + v.getBrand() + " " + v.getModel() + " (" + v.getCategory() + ")");
+        if (!vehicle.isAvailable()) {
+            throw new IllegalStateException("Vehicle is already rented / not available.");
+        }
+
+        int days = readInt("Enter Number of Rental Days: ");
+        if (days <= 0) {
+            throw new IllegalArgumentException("Rental days must be greater than 0.");
+        }
+
+        double cost = vehicle.calculateRentalCost(days);
+        System.out.println("Vehicle: " + vehicle.getBrand() + " " + vehicle.getModel() + " (" + vehicle.getCategory() + ")");
         System.out.println("Total Rental Cost for " + days + " day(s): " + cost);
+
         System.out.print("Do you confirm this rental? (yes/no): ");
         String confirm = scanner.nextLine().trim();
 
         if (confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")) {
-            v.markAsRented();
-            rentals.add(new Rental(loggedInCustomer.getCustomerId(), v, days));
+            vehicle.markAsRented();
+            rentals.add(new Rental(loggedInCustomer.getCustomerId(), vehicle, days));
             System.out.println("Rental confirmed successfully!");
         } else {
             System.out.println("Rental cancelled.");
@@ -367,24 +608,30 @@ public class Main {
     public static void viewMyRentals() {
         boolean found = false;
         System.out.println("\n--- My Rentals (Customer ID: " + loggedInCustomer.getCustomerId() + ") ---");
-        for (Rental r : rentals) {
-            if (r.getCustomerId() == loggedInCustomer.getCustomerId()) {
-                r.displayDetails();
+
+        for (Rental rental : rentals) {
+            if (rental.getCustomerId() == loggedInCustomer.getCustomerId()) {
+                rental.displayDetails();
                 found = true;
             }
         }
-        if (!found) System.out.println("You have no rental records.");
+
+        if (!found) {
+            System.out.println("You have no rental records.");
+        }
     }
 
     public static void returnVehicle() {
         boolean hasActive = false;
         System.out.println("\n--- Your Active Rentals ---");
-        for (Rental r : rentals) {
-            if (r.getCustomerId() == loggedInCustomer.getCustomerId() && r.getStatus().equals("Active")) {
-                r.displayDetails();
+
+        for (Rental rental : rentals) {
+            if (rental.getCustomerId() == loggedInCustomer.getCustomerId() && rental.getStatus().equals("Active")) {
+                rental.displayDetails();
                 hasActive = true;
             }
         }
+
         if (!hasActive) {
             System.out.println("You have no active rentals to return.");
             return;
@@ -392,14 +639,16 @@ public class Main {
 
         int id = readInt("Enter Vehicle ID to return: ");
         Rental targetRental = null;
-        for (Rental r : rentals) {
-            if (r.getCustomerId() == loggedInCustomer.getCustomerId()
-                    && r.getVehicle().getVehicleId() == id
-                    && r.getStatus().equals("Active")) {
-                targetRental = r;
+
+        for (Rental rental : rentals) {
+            if (rental.getCustomerId() == loggedInCustomer.getCustomerId()
+                    && rental.getVehicle().getVehicleId() == id
+                    && rental.getStatus().equals("Active")) {
+                targetRental = rental;
                 break;
             }
         }
+
         if (targetRental == null) {
             throw new IllegalStateException("No active rental found for Vehicle ID " + id + " under your account.");
         }
@@ -407,6 +656,7 @@ public class Main {
         System.out.println("\n--- Returning Vehicle ---");
         targetRental.displayDetails();
         System.out.println("Total Cost to Settle: " + targetRental.getTotalCost());
+
         targetRental.getVehicle().markAsReturned();
         targetRental.markReturned();
         System.out.println("Vehicle returned successfully!");
@@ -414,38 +664,81 @@ public class Main {
 
     public static void customerMenu() {
         while (true) {
-            System.out.println("\n=== CUSTOMER DASHBOARD ===");
-            System.out.println("Status: " + (loggedInCustomer != null
-                    ? "Logged in as " + loggedInCustomer.getName() + " (ID: " + loggedInCustomer.getCustomerId() + ")"
-                    : "Not logged in"));
-            System.out.println("1. Register as a New Customer\n2. Login\n3. View Available Vehicles\n4. Search Vehicles by Category\n5. Get Smart Vehicle Recommendations\n6. Rent a Vehicle\n7. View My Rentals\n8. Return a Vehicle\n9. Logout");
+            System.out.println("\n=================================");
+            System.out.println("       CUSTOMER DASHBOARD        ");
+            if (loggedInCustomer != null) {
+                System.out.println("Status: Logged in as " + loggedInCustomer.getName() 
+                        + " (ID: " + loggedInCustomer.getCustomerId() + ")");
+            } else {
+                System.out.println("Status: Not logged in");
+            }
+            System.out.println("=================================");
+            System.out.println("1. Register as a New Customer");
+            System.out.println("2. Login");
+            System.out.println("3. View Available Vehicles");
+            System.out.println("4. Search Vehicles by Category");
+            System.out.println("5. Get Smart Vehicle Recommendations");
+            System.out.println("6. Rent a Vehicle");
+            System.out.println("7. View My Rentals");
+            System.out.println("8. Return a Vehicle");
+            System.out.println("9. Logout");
 
             try {
                 int choice = readInt("Enter your choice (1-9): ");
+
                 switch (choice) {
-                    case 1: registerCustomer(); break;
-                    case 2: loginCustomer(); break;
-                    case 3: viewAvailableVehicles(); break;
-                    case 4: searchByCategory(); break;
-                    case 5: recommendVehicles(); break;
+                    case 1:
+                        registerCustomer();
+                        break;
+
+                    case 2:
+                        loginCustomer();
+                        break;
+
+                    case 3:
+                        viewAvailableVehicles();
+                        break;
+
+                    case 4:
+                        searchByCategory();
+                        break;
+
+                    case 5:
+                        recommendVehicles();
+                        break;
+
                     case 6:
-                        if (loggedInCustomer == null) System.out.println("Please login first to rent a vehicle.");
-                        else rentVehicle();
+                        if (loggedInCustomer == null) {
+                            System.out.println("Please login first to rent a vehicle.");
+                        } else {
+                            rentVehicle();
+                        }
                         break;
+
                     case 7:
-                        if (loggedInCustomer == null) System.out.println("Please login first to view your rentals.");
-                        else viewMyRentals();
+                        if (loggedInCustomer == null) {
+                            System.out.println("Please login first to view your rentals.");
+                        } else {
+                            viewMyRentals();
+                        }
                         break;
+
                     case 8:
-                        if (loggedInCustomer == null) System.out.println("Please login first to return a vehicle.");
-                        else returnVehicle();
+                        if (loggedInCustomer == null) {
+                            System.out.println("Please login first to return a vehicle.");
+                        } else {
+                            returnVehicle();
+                        }
                         break;
+
                     case 9:
                         loggedInCustomer = null;
                         System.out.println("Customer logged out.");
                         return;
+
                     default:
                         System.out.println("Invalid choice. Please select 1-9.");
+                        break;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Non-numeric input provided. Please enter a valid number.");
@@ -455,4 +748,3 @@ public class Main {
         }
     }
 }
-
