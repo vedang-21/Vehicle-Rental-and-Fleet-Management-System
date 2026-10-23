@@ -1,28 +1,36 @@
 # FleetEase: Vehicle Rental Management System
 
-FleetEase is a console-based Vehicle Rental Management System designed as an Object-Oriented Programming (OOP) academic project in Java. Built using a simplified single-file architecture, FleetEase demonstrates fundamental and advanced OOP concepts through a practical, real-world fleet and rental management use case.
+FleetEase is a console-based Vehicle Rental Management System designed as an Object-Oriented Programming (OOP) academic project in Java. Built using a clean single-file architecture, FleetEase demonstrates fundamental and advanced OOP concepts through a practical, real-world fleet and rental management use case.
 
 ---
 
 ## 📌 Features
 
-### 1. Admin Dashboard
-- **Admin Authentication**: Secured with predefined credentials (`admin` / `admin123`).
-- **Add Vehicles**: Register new Two-Wheelers and Four-Wheelers with unique IDs, brand, model, and daily rental rate.
-- **View All Vehicles**: Display full fleet catalog with status and category details.
+### 1. Preloaded Demo Vehicles
+The application automatically starts with ready-to-rent demo vehicles:
+- **Two-Wheelers**:
+  - `ID 101`: Honda Activa 6G (Rs. 350/day)
+  - `ID 102`: Royal Enfield Classic 350 (Rs. 800/day)
+  - `ID 103`: Yamaha R15 V4 (Rs. 650/day)
+- **Four-Wheelers**:
+  - `ID 201`: Maruti Suzuki Swift (Rs. 1200/day)
+  - `ID 202`: Hyundai Creta (Rs. 2200/day)
+  - `ID 203`: Mahindra Thar (Rs. 2800/day)
+
+### 2. User / Customer Menu (Streamlined & Frictionless)
+The user menu is designed to be direct and simple:
+1. **See Available Vehicles**: Instantly browse all vehicles currently available for rent.
+2. **Rent a Vehicle**: Shows available vehicles, prompts for vehicle ID, your name, 10-digit contact number, and rental days. Automatically calculates the cost and confirms the booking without requiring a separate registration ceremony.
+3. **Return a Vehicle**: View currently active rentals, select the vehicle ID to return, settle the total cost, and immediately restore the vehicle's availability.
+4. **Back to Main Menu**: Return to the main menu.
+
+### 3. Admin Dashboard
+Accessible via predefined credentials (`admin` / `admin123`):
+- **Add Vehicles**: Register new Two-Wheelers and Four-Wheelers with custom rates and IDs.
+- **View All Vehicles**: Inspect full fleet status (available and rented).
 - **View Available Vehicles**: Filter and inspect only vehicles ready for rent.
 - **View Customers**: Monitor all registered customer accounts.
 - **View Rental Records**: Full audit log of all active and completed rentals.
-
-### 2. Customer Dashboard
-- **Registration & Login**: Register with unique ID, name, and 10-digit contact number; password-free customer ID login.
-- **Browse & Search**:
-  - View all currently available vehicles.
-  - Search vehicles by category (*Two-Wheeler* or *Four-Wheeler*).
-- **Smart Vehicle Recommendation**: Enter a maximum daily budget and preferred vehicle category to find matching, available vehicles.
-- **Rent a Vehicle**: Select vehicle, specify rental duration (days), review the calculated total cost, and confirm the booking.
-- **View Personal Rentals**: Inspect your own active and returned rental history.
-- **Return a Vehicle**: Settle and return rented vehicles, instantly restoring fleet availability.
 
 ---
 
@@ -39,124 +47,6 @@ FleetEase is a console-based Vehicle Rental Management System designed as an Obj
 | **Runtime Polymorphism** | Storing child objects in an `ArrayList<Vehicle>` and invoking overridden methods (`calculateRentalCost`, `displayDetails`, `getCategory`) resolved dynamically at runtime. |
 | **Keywords** | Idiomatic use of `this`, `super`, and `@Override`. |
 | **Exception Handling** | Built-in standard exceptions (`NumberFormatException`, `IllegalArgumentException`, `IllegalStateException`) thrown during validation and handled cleanly by menu loops without crashing. |
-
----
-
-## 🏛️ Class Architecture
-
-```mermaid
-classDiagram
-    direction TB
-
-    class Main {
-        -ArrayList~Vehicle~ vehicles$
-        -ArrayList~Customer~ customers$
-        -ArrayList~Rental~ rentals$
-        -Scanner scanner$
-        -Customer loggedInCustomer$
-        +main(String[] args)$ void
-        +adminLogin()$ boolean
-        +adminMenu()$ void
-        +customerMenu()$ void
-        +addVehicle()$ void
-        +displayVehicles()$ void
-        +displayVehicles(String category)$ void
-        +viewAvailableVehicles()$ void
-        +findVehicleById(int id)$ Vehicle
-        +registerCustomer()$ void
-        +loginCustomer()$ void
-        +searchByCategory()$ void
-        +recommendVehicles()$ void
-        +rentVehicle()$ void
-        +viewMyRentals()$ void
-        +returnVehicle()$ void
-        +viewCustomers()$ void
-        +viewRentals()$ void
-        +readInt(String prompt)$ int
-    }
-
-    class Rentable {
-        <<interface>>
-        +calculateRentalCost(int days) double
-        +markAsRented() void
-        +markAsReturned() void
-    }
-
-    class Vehicle {
-        <<abstract>>
-        -int vehicleId
-        -String brand
-        -String model
-        -double rentalRate
-        -boolean available
-        +Vehicle(int vehicleId, String brand, String model, double rentalRate)
-        +getVehicleId() int
-        +getBrand() String
-        +getModel() String
-        +getRentalRate() double
-        +isAvailable() boolean
-        +getCategory()* String
-        +calculateRentalCost(int days)* double
-        +markAsRented() void
-        +markAsReturned() void
-        +displayDetails() void
-    }
-
-    class TwoWheeler {
-        +TwoWheeler(int vehicleId, String brand, String model, double rentalRate)
-        +getCategory() String
-        +calculateRentalCost(int days) double
-        +displayDetails() void
-    }
-
-    class FourWheeler {
-        +FourWheeler(int vehicleId, String brand, String model, double rentalRate)
-        +getCategory() String
-        +calculateRentalCost(int days) double
-        +displayDetails() void
-    }
-
-    class Customer {
-        -int customerId
-        -String name
-        -String contactNumber
-        +Customer(int customerId, String name, String contactNumber)
-        +getCustomerId() int
-        +getName() String
-        +getContactNumber() String
-        +displayDetails() void
-    }
-
-    class Rental {
-        -int customerId
-        -Vehicle vehicle
-        -int days
-        -double totalCost
-        -String status
-        +Rental(int customerId, Vehicle vehicle, int days)
-        +getCustomerId() int
-        +getVehicle() Vehicle
-        +getDays() int
-        +getTotalCost() double
-        +getStatus() String
-        +markReturned() void
-        +displayDetails() void
-    }
-
-    Main *-- Rentable : inner interface
-    Main *-- Vehicle : inner class
-    Main *-- TwoWheeler : inner class
-    Main *-- FourWheeler : inner class
-    Main *-- Customer : inner class
-    Main *-- Rental : inner class
-
-    Rentable <|.. Vehicle : implements
-    Vehicle <|-- TwoWheeler : extends
-    Vehicle <|-- FourWheeler : extends
-
-    Customer "1" <.. "0..*" Rental : customerId
-    Rental "*" --> "1" Vehicle : rents
-```
 
 ---
 
@@ -178,7 +68,7 @@ Vehicle-Rental-and-Fleet-Management-System/
 
 ### Compilation & Execution
 
-1. **Clone or navigate to the repository directory**:
+1. **Navigate to the repository directory**:
    ```bash
    cd "Vehicle-Rental-and-Fleet-Management-System"
    ```
@@ -199,14 +89,3 @@ Vehicle-Rental-and-Fleet-Management-System/
 
 - **Admin Username**: `admin`
 - **Admin Password**: `admin123`
-
----
-
-## 🛡️ Input Validation & Error Handling
-
-- **Unique & Positive IDs**: Vehicle and customer IDs must be positive integers and cannot conflict with existing records.
-- **Phone Number Format**: Customer contact numbers must be exactly 10 digits (`\d{10}`).
-- **Durations & Rates**: Rental rates and rental days must be strictly greater than 0.
-- **Availability Guards**: Renting already booked vehicles or returning vehicles not rented by the customer are rejected gracefully with informative messages.
-- **Non-numeric Safeguards**: `NumberFormatException` handling prevents program crashes when text is entered where a number is expected.
-
